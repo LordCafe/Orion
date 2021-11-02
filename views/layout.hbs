@@ -11,6 +11,47 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/root.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+     window.googletag = window.googletag || { cmd: [] };
+      googletag.cmd.push(function () {
+      var responsiveAdSlot =
+          googletag.defineSlot('/6355419/Travel/Europe',
+            [[300, 250], [728, 90], [750, 200]], 'responsive-ad')
+            .addService(googletag.pubads());
+
+        let  mapping =  googletag.sizeMapping()
+
+        let Desktop = {
+          viewPort: [992, 0],
+          sizes: [[300, 250], [1, 1]]
+        };
+
+        let Tablet = {
+          viewPort: [992, 0],
+          sizes: [[300, 250], [1, 1]]
+        };
+
+        let Mobile = {
+          viewPort: [992, 0],
+          sizes: [[300, 250], [1, 1]]
+        };
+
+
+        mapping.addSize(Desktop.viewPort, Desktop.sizes);
+        mapping.addSize(Mobile.viewPort, Mobile.sizes);
+        mapping.addSize(Tablet.viewPort, Tablet.sizes);
+
+        slot = responsiveAdSlot.addService(googletag.pubads())
+
+         googletag.pubads().enableSingleRequest();
+
+        // Start ad fetching
+        googletag.enableServices();
+
+
+
+      });
+    </script>
   </head>
   <body>
     {{!-- Begin Navegation --}}
@@ -25,9 +66,20 @@
         </div>
       </nav>
     {{!-- End navegation --}}
+    <div id="responsive-ad">
+      <script>
+        googletag.cmd.push(function () {
+          googletag.display('responsive-ad');
+        });
+      </script>
+    </div>
     {{{body}}}
 
     <script src="/javascripts/react/main.js"></script>
     <script src="/javascripts/master-helper.js"></script>
+    <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+    <script>
+
+    </script>
   </body>
 </html>
