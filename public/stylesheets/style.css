@@ -2,3 +2,15 @@ nav {
     color: #fff;
     background-color: #2b1d1e;
  }
+
+ #api-response{
+     margin : 0 auto;
+     width: 60%;
+     border: solid 1px cornsilk;
+ }
+
+
+.media img {
+    display:block;
+    margin:auto;
+}

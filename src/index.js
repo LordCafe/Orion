@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ShoppingList from './demo';
+
+console.log( typeof APIURL , "demo");
 
 ReactDOM.render(
-  <h1>Hello, world!</h1>,
+  <ShoppingList api = { APIURL }></ShoppingList>,
   document.getElementById('root')
 );
