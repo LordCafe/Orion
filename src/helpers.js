@@ -15,7 +15,8 @@ class helpers{
 
   GetPrincipalImage(){
     let image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-    let imageUse = this.note.images;
+    let imageUse = this.note.images || this.note.image;
+    console.log( imageUse ,"principal imagen");
     try {
      image = (Array.isArray(imageUse)) ? imageUse[0].url : imageUse.url;
     } catch (error) {

@@ -19,7 +19,8 @@ class TableInfo extends React.Component {
   }
 
   componentDidMount(){
-
+    this.helper = new helpers(this.props.note);
+    this.setState({ status: "complete", id: this.props.note.id });
   }
 
   componentDidUpdate(preprops,prestate  ){
@@ -29,6 +30,7 @@ class TableInfo extends React.Component {
         && Object.entries( this.props.note ).length > 0
 
       ){
+
         if( this.props.note.id != this.state.id ){
           this.helper = new helpers(this.props.note);
           this.setState({ status: "complete" , id : this.props.note.id  });

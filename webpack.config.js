@@ -33,6 +33,7 @@ module.exports = {
       PRODUCTION: JSON.stringify(true),
       BUILDTIME: JSON.stringify(new Date().getTime()),
       APIURL: JSON.stringify( process.env.APIURL ),
+      ALLSITES: JSON.stringify(process.env.ALLSITES),
     }),
   ],
 }

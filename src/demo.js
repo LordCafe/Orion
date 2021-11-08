@@ -6,8 +6,11 @@ import TableInfo  from "./tableInfo"
 class ShoppingList extends React.Component {
   constructor(props) {
     super(props);
+    this.UrlApi = this.props.api;
+
     this.state = {
-        value: this.props.api,
+        site : 0,
+        value: this.props.api.replace("{SITES}",this.props.sites[0]),
         index: 0,
         status : "wait",
         notes : [],
@@ -18,28 +21,50 @@ class ShoppingList extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeCurrent = this.changeCurrent.bind(this);
     this.clickPage = this.clickPage.bind(this);
-
   }
 
+  componentDidMount(){
+    setTimeout(()=>{
+        this.LoadNotes();
+    },500);
+
+  }
   handleChange(event) {
     this.setState({ value: event.target.value  });
   }
 
+  LoadNotes( time = 100 ){
+    this.setState({ status: "wait" });
+
+    setTimeout(()=>{
+      MasterApi(this.state.value).then((result) => {
+        let { data } = result;
+        this.setState({
+          status: "complete",
+          notes: data,
+          current: data[0],
+          total: data.length,
+          index: 0
+        });
+      })
+    },time );
+
+  }
   handleSubmit(event) {
-    this.setState({ status: "loading" });
-    MasterApi(this.state.value).then((result) => {
-      let { data } = result;
-      this.setState({
-        status : "complete" ,
-        notes : data ,
-        current : data[0],
-        total: data.length,
-        index :0
-      });
-    })
+    this.LoadNotes();
     event.preventDefault();
   }
 
+
+  componentDidUpdate(prevProps , prevState ){
+
+    if( prevState.value != this.state.value){
+      console.log("actualizando notas");
+      this.LoadNotes(500);
+    }else{
+      console.log( this.state.status );
+    }
+  }
 
   RenderLoading(){
     return (
@@ -60,8 +85,7 @@ class ShoppingList extends React.Component {
     let template = false;
     switch( this.state.status ){
       case  "wait" :
-        template = this.RenderWait();
-      break;
+        template =  this.RenderLoading();102/8
 
       case "loading":
 
@@ -149,22 +173,60 @@ class ShoppingList extends React.Component {
   }
 
   RenderBody(){
-    return (
-      <div className={"body-note"}>
-        <div dangerouslySetInnerHTML={{ __html: this.state.current.body }}></div>
-      </div>
-    );
+    let template= this.loading();
+    if( this.state.status === "complete"){
+      template = (
+        <div className={"body-note"}>
+          <div dangerouslySetInnerHTML={{ __html: this.state.current.body }}></div>
+        </div>
+      );
+    }
+    return template;
+
+  }
+
+  ButtonSites(){
+    let buttons = this.props.sites.map( ( site , index )=>{
+
+      let css = ( this.state.site == index ) ? "red":"";
+      return (<a className={"waves-effect waves-light btn button-site " + css } onClick={()=>{
+        this.setState( {
+          site : index,
+          value: this.UrlApi.replace("{SITES}", this.props.sites[index])
+
+        });
+
+      }} >{ site }</a>);
+    });
+    return buttons;
+  }
+
+  RenderExplantion(){
+    let template = this.loading();
+
+    if( this.state.status == "complete"){
+      let pagination = (this.state.total > 0) ? this.pagination() : false;
+
+      template = (
+        <div>
+          {pagination}
+          <div className={"infotable"}>
+            {<TableInfo note={this.state.current} />}
+          </div>
+        </div>);
+    }
+
+
+      return template;
+
+
   }
   render() {
-
-    let pagination = ( this.state.total  > 0 ) ? this.pagination() : false;
-    let body =  ( this.state.current['body']   == undefined  ) ? this.loading(): this.RenderBody();
-    console.log( body );
-
-
     return (
 
       <div class="row">
+        <div>{this.ButtonSites()}</div>
+
         <form class="col s12" onSubmit={this.handleSubmit}>
           <div class="row">
             <div class="input-field cols s6 ">
@@ -176,21 +238,16 @@ class ShoppingList extends React.Component {
             </button>
           </div>
         </form>
-
+        <h3>{this.state.status}</h3>
         <div id="api-response">
-        <div id="content">
-            <div>
-              {pagination}
-              <div className={"infotable"}>
-                {<TableInfo note={ this.state.current }/>}
+            <div id="content">
+              <div className={"center"}>
+                  {this.RenderExplantion()}
               </div>
-
-            </div>
-
-            <div className={"principalNote note-to-show" }>
-              { body }
-            </div>
-          </div>
+              <div className={"principalNote note-to-show" }>
+                  { this.RenderBody() }
+              </div>
+        </div>
         </div>
       </div>
 

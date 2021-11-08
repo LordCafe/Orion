@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ShoppingList from './demo';
 
-console.log( APIURL , "demo");
+console.log( ALLSITES , "All sites");
+console.log( APIURL ,"api url ");
 
 ReactDOM.render(
-  <ShoppingList api = { APIURL }></ShoppingList>,
+  <ShoppingList api = { APIURL } sites ={ ALLSITES.split(",")}></ShoppingList>,
   document.getElementById('root')
 );
