@@ -104,7 +104,7 @@ class ShoppingList extends React.Component {
   }
 
   loading() {
-    return (<div class="block-react">
+    return (<div class="block-react center-content">
       <div class="card-skeleton"></div>
     </div>)
   }
@@ -152,7 +152,7 @@ class ShoppingList extends React.Component {
 
     return(
       <div>
-        <ul class="pagination">
+        <ul class="pagination center">
           <li className={ FirstActionLi  } onClick={ ()=>{
             this.clickPage( -1 )
           }}><a href="#!"><i class="material-icons">chevron_left</i></a></li>
@@ -203,13 +203,10 @@ class ShoppingList extends React.Component {
 
   RenderExplantion(){
     let template = this.loading();
-
     if( this.state.status == "complete"){
-      let pagination = (this.state.total > 0) ? this.pagination() : false;
 
       template = (
         <div>
-          {pagination}
           <div className={"infotable"}>
             {<TableInfo note={this.state.current} />}
           </div>
@@ -221,33 +218,42 @@ class ShoppingList extends React.Component {
 
 
   }
+  RenderPagination(){
+    let pagination = (this.state.total > 0) ? this.pagination() : false;
+    return pagination;
+  }
+  form(){
+    return(
+
+      <form class="col s12" onSubmit={this.handleSubmit}>
+        <div class="row">
+          <div class="input-field cols s6 ">
+            <label> Escriba la url del api :</label>
+            <input type="text" class="materializa-input" value={this.state.value} onChange={this.handleChange} />
+          </div>
+          <button class="btn waves-effect waves-light" type="submit" name="action">
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </form>
+    )
+  }
   render() {
     return (
-
       <div class="row">
         <div>{this.ButtonSites()}</div>
-
-        <form class="col s12" onSubmit={this.handleSubmit}>
-          <div class="row">
-            <div class="input-field cols s6 ">
-              <label> Escriba la url del api :</label>
-              <input type="text" class="materializa-input" value={this.state.value} onChange={this.handleChange} />
-            </div>
-            <button class="btn waves-effect waves-light" type="submit" name="action">
-              <i class="material-icons right">send</i>
-            </button>
-          </div>
-        </form>
         <h3>{this.state.status}</h3>
+        <div >{this.RenderPagination()}</div>
         <div id="api-response">
+
             <div id="content">
-              <div className={"center"}>
+              <div className={"center-content"}>
                   {this.RenderExplantion()}
               </div>
-              <div className={"principalNote note-to-show" }>
+              <div className={"principalNote note-to-show center-content card"}>
                   { this.RenderBody() }
               </div>
-        </div>
+            </div>
         </div>
       </div>
 

@@ -38,7 +38,7 @@ nav {
     background-color: rgb(255 255 255);
     flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: 40%;
+    flex-basis: 45%;
 }
 .principalNote{
     background-color: white;
@@ -205,7 +205,7 @@ article{
   font-size: 15px !important;
   color: #2b1d1e;
 }
-.center{ margin: 0 auto;}
+.center-content{ margin: 0 auto;}
 .button-site{
   margin: 0 30px;
 }
